@@ -1,0 +1,101 @@
+import Phaser from 'phaser';
+import { fiksForPikselratio } from '../fiks-for-pikselratio';
+
+export class MainScene extends Phaser.Scene {
+  groundLayer: any;
+  bredde!: number;
+  hoyde!: number;
+  map!: Phaser.Tilemaps.Tilemap;
+  helt!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  presentsGroup!: Phaser.Physics.Arcade.Group;
+  hasJumpedTwice = false;
+  timeSinceLastJump: number | undefined = undefined;
+
+  constructor() {
+    super('main-scene');
+  }
+
+  init(): void {
+    this.bredde = this.game.scale.gameSize.width;
+    this.hoyde = this.game.scale.gameSize.height;
+    // this.innstillinger = spillressursinfo(this.bredde, this.hoyde);
+  }
+
+  create(): void {
+    this.map = this.make.tilemap({ key: 'map' });
+    const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
+    const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
+
+    const platformLayer = this.map.createLayer('Level01', [tiles, presents]);
+    platformLayer.setCollisionByProperty({ collision: true });
+
+    this.presentsGroup = this.physics.add.group({
+      allowGravity: false,
+      immovable: true,
+    });
+
+    // this.groundLayer = map.createLayer('Level01', tiles);
+    // map.createLayer('Foreground', tiles);
+
+    this.helt = this.physics.add.sprite(fiksForPikselratio(32 / 2), this.hoyde - fiksForPikselratio(40 / 2 + 32 + 100), 'helt');
+
+    this.helt.anims.create({
+      key: 'walk',
+      frames: this.anims.generateFrameNumbers('helt', { frames: [1, 0] }),
+      frameRate: 6,
+      repeat: -1,
+    });
+    this.helt.anims.create({
+      key: 'stand',
+      frames: this.anims.generateFrameNumbers('helt', { frames: [1] }),
+    });
+    this.helt.anims.create({
+      key: 'jump',
+      frames: this.anims.generateFrameNumbers('helt', { frames: [0] }),
+    });
+    // this.helt.anims.play('walk', true);
+    this.helt.setBounce(0.1);
+
+    this.input.on('pointerdown', () => {
+      console.log('hopp');
+    });
+
+    this.cameras.main.startFollow(this.helt);
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
+    this.physics.add.collider(this.helt, platformLayer);
+  }
+
+  update(time: number): void {
+    if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
+      this.helt.setVelocityY(fiksForPikselratio(-200));
+      // 300 ms er for å sikre at man er ferdig å klikke første gang.
+      // Lavt tall her gjør at man må tappe spesielt fort på en touch skjerm.
+      if (!this.timeSinceLastJump || time - this.timeSinceLastJump > 300) {
+        if (this.hasJumpedTwice) {
+          // console.log('update2', this.hasJumpedTwice, time);
+          this.hasJumpedTwice = false;
+        } else {
+          // console.log('update3', this.hasJumpedTwice, time);
+          this.hasJumpedTwice = true;
+          this.timeSinceLastJump = time;
+        }
+      }
+    } else {
+      this.helt.setVelocityX(fiksForPikselratio(100));
+    }
+
+    // Animasjoner.
+    if (this.helt.body.onFloor() && !this.helt.body.onWall()) {
+      this.helt.play('walk', true);
+    } else if (!this.helt.body.onFloor()) {
+      this.helt.play('jump', true);
+    } else {
+      this.helt.play('stand', true);
+    }
+
+    if (this.helt.x > this.map.widthInPixels) {
+      this.scene.restart();
+    }
+  }
+}

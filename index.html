@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nb">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <link rel="preload" as="image" href="loader.svg" />
+    <!-- AUTOMATISK START -->
+    <title>Nissen har pakketrøbbel</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/nissen-icon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/nissen-icon-180.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#b3000c" />
+    <!-- AUTOMATISK FERDIG -->
   </head>
   <body>
-    <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+
+    <img id="loader" src="loader.svg" style="display: block; width: 50vh; height: 50vw; margin: 0 auto" />
   </body>
 </html>

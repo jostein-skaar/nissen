@@ -1,0 +1,53 @@
+import { MainScene } from './main-scene';
+import { PreloadScene } from './preload-scene';
+
+export function createGameConfig(
+  width: number,
+  height: number,
+  scalingModePhaser: Phaser.Scale.ScaleModes,
+  pixelRatio: number,
+  isDebug: boolean
+): Phaser.Types.Core.GameConfig {
+  const gameConfig: Phaser.Types.Core.GameConfig = {
+    type: Phaser.AUTO,
+    // type: Phaser.CANVAS,
+    scene: [PreloadScene, MainScene],
+    width: width * pixelRatio,
+    height: height * pixelRatio,
+    backgroundColor: 0x87ceeb,
+    autoFocus: true,
+    render: {
+      // antialias: false, er default, giving a crisper appearance.
+      // antialias: true, giving a smooth appearance.
+      // roundPixels: true, round pixel values to whole integers? Prevent sub-pixel aliasing.
+      // pixelArt: true, gir antialias=false og roundPixels=true
+    },
+
+    physics: {
+      default: 'arcade',
+      arcade: {
+        gravity: { y: 300 * pixelRatio },
+        debug: isDebug,
+      },
+    },
+
+    scale: {
+      // Vi har denne som FIT først, for da vil canvas.style.width og .height settes automatisk.
+      // Må fjernes etterpå, ellers vil rare ting skje i forbindelse med resize.
+      mode: scalingModePhaser,
+      // mode: Phaser.Scale.ScaleModes.NONE,
+      // mode: Phaser.Scale.ScaleModes.FIT,
+      autoCenter: Phaser.Scale.Center.CENTER_BOTH,
+      // autoCenter: Phaser.Scale.Center.CENTER_HORIZONTALLY,
+      // autoCenter: Phaser.Scale.Center.CENTER_VERTICALLY,
+      // expandParent: true
+
+      // width: bredde * window.devicePixelRatio,
+      // height: hoyde * window.devicePixelRatio,
+      zoom: 1 / pixelRatio,
+      // autoRound: true,
+    },
+  };
+
+  return gameConfig;
+}
