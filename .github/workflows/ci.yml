@@ -30,7 +30,7 @@ jobs:
       - name: Replace version in files
         uses: jostein-skaar/action-erstatninger@v1
         with:
-          sok: '{VERSJON}'
+          sok: '{VERSION}'
           erstatt: '${{steps.tagstep.outputs.tag}}'
           filer: 'dist/**/*.{js,html}'
           dry-run: false

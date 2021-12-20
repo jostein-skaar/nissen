@@ -18,7 +18,16 @@ export class PreloadScene extends Phaser.Scene {
 
     this.load.image('tiles', `/assets/tiles-sprite@${fiksForPikselratio(1)}.png`);
     this.load.image('presents', `/assets/presents-sprite@${fiksForPikselratio(1)}.png`);
-    this.load.tilemapTiledJSON('map', `assets/level01@${fiksForPikselratio(1)}.json`);
+    this.load.image('background', `/assets/background-sprite@${fiksForPikselratio(1)}.png`);
+
+    this.load.spritesheet('snow', `/assets/snow-sprite@${fiksForPikselratio(1)}.png`, {
+      frameWidth: fiksForPikselratio(16),
+      frameHeight: fiksForPikselratio(16),
+      margin: 1,
+      spacing: 2,
+    });
+
+    this.load.tilemapTiledJSON('map', `assets/levels@${fiksForPikselratio(1)}.json`);
   }
 
   create() {

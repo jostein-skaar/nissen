@@ -1,5 +1,5 @@
-handlePixelRatio(2, 'public/assets/level01@1.json', 'public/assets/level01@2.json');
-handlePixelRatio(3, 'public/assets/level01@1.json', 'public/assets/level01@3.json');
+handlePixelRatio(2, 'public/assets/levels@1.json', 'public/assets/levels@2.json');
+handlePixelRatio(3, 'public/assets/levels@1.json', 'public/assets/levels@3.json');
 
 function handlePixelRatio(pixelRatio, srcPath, dstPath) {
   console.log('handlePixelRatio for: ', pixelRatio);

@@ -10,6 +10,7 @@ export class MainScene extends Phaser.Scene {
   presentsGroup!: Phaser.Physics.Arcade.Group;
   hasJumpedTwice = false;
   timeSinceLastJump: number | undefined = undefined;
+  backgroundMountains!: Phaser.GameObjects.TileSprite;
 
   constructor() {
     super('main-scene');
@@ -26,7 +27,30 @@ export class MainScene extends Phaser.Scene {
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
 
-    const platformLayer = this.map.createLayer('Level01', [tiles, presents]);
+    this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background');
+    this.backgroundMountains.setOrigin(0, 0);
+    this.backgroundMountains.setScrollFactor(0);
+
+    const particles = this.add.particles('snow');
+
+    var emitter = particles.createEmitter({
+      x: { min: fiksForPikselratio(-10), max: fiksForPikselratio(this.map.widthInPixels) },
+      y: fiksForPikselratio(-10),
+      lifespan: { min: 20000, max: 60000 },
+      speedY: { min: 2, max: 10 },
+      speedX: { min: -10, max: 10 },
+      angle: { min: 0, max: 180 },
+      gravityY: 1,
+      scale: { min: 0.4, max: 1 },
+      quantity: 10,
+      frequency: 500,
+      rotate: { start: 0, end: 180 },
+      frame: [0, 1, 2],
+    });
+    emitter.scrollFactorX = 1;
+    emitter.randomFrame = true;
+
+    const platformLayer = this.map.createLayer('level01/platform', [tiles, presents]);
     platformLayer.setCollisionByProperty({ collision: true });
 
     this.presentsGroup = this.physics.add.group({
@@ -67,6 +91,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number): void {
+    this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.3;
+
     if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
       this.helt.setVelocityY(fiksForPikselratio(-200));
       // 300 ms er for å sikre at man er ferdig å klikke første gang.
