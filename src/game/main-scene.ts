@@ -94,6 +94,10 @@ export class MainScene extends Phaser.Scene {
     this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.2;
     this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
 
+    if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
+      console.log('Klar for hoppings?', this.helt.body.touching);
+    }
+
     // TODO: Problem når hoppa og landa. Kan ikke dobelthoppe neste gang.
     if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
       this.helt.setVelocityY(fiksForPikselratio(-200));
@@ -101,10 +105,10 @@ export class MainScene extends Phaser.Scene {
       // Lavt tall her gjør at man må tappe spesielt fort på en touch skjerm.
       if (!this.timeSinceLastJump || time - this.timeSinceLastJump > 300) {
         if (this.hasJumpedTwice) {
-          // console.log('update2', this.hasJumpedTwice, time);
+          console.log('update2', this.hasJumpedTwice, time);
           this.hasJumpedTwice = false;
         } else {
-          // console.log('update3', this.hasJumpedTwice, time);
+          console.log('update3', this.hasJumpedTwice, time);
           this.hasJumpedTwice = true;
           this.timeSinceLastJump = time;
         }
