@@ -91,7 +91,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number): void {
-    this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.3;
+    this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.2;
     this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
 
     // TODO: Problem når hoppa og landa. Kan ikke dobelthoppe neste gang.
