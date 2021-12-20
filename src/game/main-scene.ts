@@ -11,6 +11,7 @@ export class MainScene extends Phaser.Scene {
   hasJumpedTwice = false;
   timeSinceLastJump: number | undefined = undefined;
   backgroundMountains!: Phaser.GameObjects.TileSprite;
+  backgroundSnow!: Phaser.GameObjects.TileSprite;
 
   constructor() {
     super('main-scene');
@@ -27,9 +28,8 @@ export class MainScene extends Phaser.Scene {
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
 
-    this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background');
-    this.backgroundMountains.setOrigin(0, 0);
-    this.backgroundMountains.setScrollFactor(0);
+    this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 0).setOrigin(0, 0).setScrollFactor(0);
+    this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 1).setOrigin(0, 0).setScrollFactor(0);
 
     const particles = this.add.particles('snow');
 
@@ -47,7 +47,7 @@ export class MainScene extends Phaser.Scene {
       rotate: { start: 0, end: 180 },
       frame: [0, 1, 2],
     });
-    emitter.scrollFactorX = 1;
+    emitter.scrollFactorX = 0.7;
     emitter.randomFrame = true;
 
     const platformLayer = this.map.createLayer('level01/platform', [tiles, presents]);
@@ -92,7 +92,9 @@ export class MainScene extends Phaser.Scene {
 
   update(time: number): void {
     this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.3;
+    this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
 
+    // TODO: Problem når hoppa og landa. Kan ikke dobelthoppe neste gang.
     if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
       this.helt.setVelocityY(fiksForPikselratio(-200));
       // 300 ms er for å sikre at man er ferdig å klikke første gang.
