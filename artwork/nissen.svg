@@ -223,11 +223,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="-310.41988"
-     inkscape:cy="928.43121"
+     inkscape:zoom="11.313708"
+     inkscape:cx="5.9662135"
+     inkscape:cy="48.127455"
      inkscape:document-units="px"
-     inkscape:current-layer="svg8"
+     inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      units="px"
@@ -364,27 +364,27 @@
        style="font-size:20px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect207602);display:inline"><tspan
          x="-788"
          y="-11.753394"
-         id="tspan64432">b3000c: mørk rød
+         id="tspan65233">b3000c: mørk rød
 </tspan><tspan
          x="-788"
          y="13.246606"
-         id="tspan64434">e40a2d: lys rød
+         id="tspan65235">e40a2d: lys rød
 </tspan><tspan
          x="-788"
          y="38.246606"
-         id="tspan64436">00b32c: mørk grønn
+         id="tspan65237">00b32c: mørk grønn
 </tspan><tspan
          x="-788"
          y="63.246606"
-         id="tspan64438">1fd537: lys grønn
+         id="tspan65239">1fd537: lys grønn
 </tspan><tspan
          x="-788"
          y="88.246606"
-         id="tspan64440">87CEEB: himmelblå
+         id="tspan65241">87CEEB: himmelblå
 </tspan><tspan
          x="-788"
          y="113.24661"
-         id="tspan64442">ece7b8: beige</tspan></text>
+         id="tspan65243">ece7b8: beige</tspan></text>
   </g>
   <g
      inkscape:label="fliser"
@@ -1538,21 +1538,28 @@
      id="layer1"
      style="display:inline"
      inkscape:groupmode="layer">
-    <rect
-       inkscape:label="papir"
-       style="fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.694266;stroke-miterlimit:4;stroke-dasharray:none"
-       id="rect971"
-       width="31.999998"
-       height="24.639866"
-       x="0"
-       y="7.3601336"
-       ry="1.98175" />
-    <path
-       inkscape:label="band"
-       id="rect973-3"
-       style="display:inline;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.601251;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 17.370328,3.2427757 c -1.074875,-0.1863836 2.603037,-3.46574659 -1.721342,-3.230729 -3.32107,-0.0140091 -0.340838,2.6808285 -1.381042,3.1423534 -1.514854,0.6721209 -3.08149,-4.2310222 -4.70617,-1.5958074 -1.3145348,2.132162 4.76381,5.8015419 4.76381,5.8015419 V 18.390771 H 3.2e-6 v 2.578592 H 14.325584 V 32 h 3.348835 V 20.969363 H 32 V 18.390771 H 17.674419 V 7.3601346 c 0,0 6.038892,-3.1515431 5.351743,-5.6655988 -2.042621,-1.48840266 -4.933675,1.6146878 -5.655834,1.5482399 z"
-       sodipodi:nodetypes="ccascccccccccccccc" />
+    <g
+       id="g64861"
+       inkscape:label="pakke"
+       transform="matrix(0.98437505,0,0,0.98435189,0.25000029,0.25073805)"
+       style="stroke-width:1.01587">
+      <rect
+         inkscape:label="papir"
+         style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.507943;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect971"
+         width="31.999998"
+         height="24.639866"
+         x="0"
+         y="7.3601336"
+         ry="2.0132544"
+         rx="2.0132062" />
+      <path
+         inkscape:label="band"
+         id="path64839"
+         style="display:inline;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.507943;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 17.370328,3.2427757 c -1.074875,-0.1863836 2.603037,-3.46574659 -1.721342,-3.230729 -3.32107,-0.0140091 -0.340838,2.6808285 -1.381042,3.1423534 -1.514854,0.6721209 -3.08149,-4.2310222 -4.70617,-1.5958074 -1.3145348,2.132162 4.76381,5.8015419 4.76381,5.8015419 V 18.390771 H 3.2e-6 v 2.578592 H 14.325584 V 32 h 3.348835 V 20.969363 H 32 V 18.390771 H 17.674419 V 7.3601346 c 0,0 6.038892,-3.1515431 5.351743,-5.6655988 -2.042621,-1.48840266 -4.933675,1.6146878 -5.655834,1.5482399 z"
+         sodipodi:nodetypes="ccascccccccccccccc" />
+    </g>
     <g
        transform="translate(51.040405,-642.3057)"
        inkscape:label="logo-bakgrunn-trekanter-30-grader"

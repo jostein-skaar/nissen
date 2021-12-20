@@ -58,6 +58,12 @@ export class MainScene extends Phaser.Scene {
       immovable: true,
     });
 
+    const t = platformLayer.getTileAt(1, 0);
+    t.visible = false;
+    // platformLayer
+
+    console.log('tile', t);
+
     // this.groundLayer = map.createLayer('Level01', tiles);
     // map.createLayer('Foreground', tiles);
 
