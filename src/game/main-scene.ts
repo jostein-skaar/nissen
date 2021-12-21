@@ -32,23 +32,23 @@ export class MainScene extends Phaser.Scene {
     this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 0).setOrigin(0, 0).setScrollFactor(0);
     this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 1).setOrigin(0, 0).setScrollFactor(0);
 
-    const particles = this.add.particles('snow');
-    var emitter = particles.createEmitter({
-      x: { min: fiksForPikselratio(-10), max: this.bredde * 2 },
-      y: fiksForPikselratio(-10),
-      lifespan: { min: 20000, max: 60000 },
-      speedY: { min: fiksForPikselratio(2), max: fiksForPikselratio(10) },
-      speedX: { min: fiksForPikselratio(-10), max: fiksForPikselratio(10) },
-      angle: { min: 0, max: 180 },
-      gravityY: fiksForPikselratio(1),
-      scale: { min: 0.4, max: 1 },
-      quantity: fiksForPikselratio(5),
-      frequency: 1000,
-      rotate: { start: 0, end: 180 },
-      frame: [0, 1, 2],
-    });
-    emitter.scrollFactorX = this.bredde / fiksForPikselratio(this.map.widthInPixels);
-    emitter.randomFrame = true;
+    // const particles = this.add.particles('snow');
+    // var emitter = particles.createEmitter({
+    //   x: { min: fiksForPikselratio(-10), max: this.bredde * 2 },
+    //   y: fiksForPikselratio(-10),
+    //   lifespan: { min: 20000, max: 60000 },
+    //   speedY: { min: fiksForPikselratio(2), max: fiksForPikselratio(10) },
+    //   speedX: { min: fiksForPikselratio(-10), max: fiksForPikselratio(10) },
+    //   angle: { min: 0, max: 180 },
+    //   gravityY: fiksForPikselratio(1),
+    //   scale: { min: 0.4, max: 1 },
+    //   quantity: fiksForPikselratio(5),
+    //   frequency: 1000,
+    //   rotate: { start: 0, end: 180 },
+    //   frame: [0, 1, 2],
+    // });
+    // emitter.scrollFactorX = this.bredde / fiksForPikselratio(this.map.widthInPixels);
+    // emitter.randomFrame = true;
 
     const platformLayer = this.map.createLayer('level03', [tiles, presents, coronas]);
     platformLayer.setCollisionByProperty({ collision: true });
