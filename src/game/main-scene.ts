@@ -27,14 +27,14 @@ export class MainScene extends Phaser.Scene {
     this.map = this.make.tilemap({ key: 'map' });
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
+    const coronas = this.map.addTilesetImage(`korona-sprite@${fiksForPikselratio(1)}`, 'coronas');
 
     this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 0).setOrigin(0, 0).setScrollFactor(0);
     this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 1).setOrigin(0, 0).setScrollFactor(0);
 
     const particles = this.add.particles('snow');
-
     var emitter = particles.createEmitter({
-      x: { min: fiksForPikselratio(-10), max: fiksForPikselratio(this.map.widthInPixels) },
+      x: { min: fiksForPikselratio(-10), max: this.bredde + fiksForPikselratio(10) },
       y: fiksForPikselratio(-10),
       lifespan: { min: 20000, max: 60000 },
       speedY: { min: fiksForPikselratio(2), max: fiksForPikselratio(10) },
@@ -42,15 +42,15 @@ export class MainScene extends Phaser.Scene {
       angle: { min: 0, max: 180 },
       gravityY: fiksForPikselratio(1),
       scale: { min: 0.4, max: 1 },
-      quantity: fiksForPikselratio(10),
-      frequency: 500,
+      quantity: fiksForPikselratio(5),
+      frequency: 1000,
       rotate: { start: 0, end: 180 },
       frame: [0, 1, 2],
     });
-    emitter.scrollFactorX = 0.7;
+    emitter.scrollFactorX = 0;
     emitter.randomFrame = true;
 
-    const platformLayer = this.map.createLayer('level01/platform', [tiles, presents]);
+    const platformLayer = this.map.createLayer('level03', [tiles, presents, coronas]);
     platformLayer.setCollisionByProperty({ collision: true });
 
     this.presentsGroup = this.physics.add.group({
@@ -58,11 +58,11 @@ export class MainScene extends Phaser.Scene {
       immovable: true,
     });
 
-    const t = platformLayer.getTileAt(1, 0);
-    t.visible = false;
-    // platformLayer
+    // const t = platformLayer.getTileAt(1, 0);
+    // t.visible = false;
+    // // platformLayer
 
-    console.log('tile', t);
+    // console.log('tile', t);
 
     // this.groundLayer = map.createLayer('Level01', tiles);
     // map.createLayer('Foreground', tiles);
