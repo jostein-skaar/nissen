@@ -34,7 +34,7 @@ export class MainScene extends Phaser.Scene {
 
     const particles = this.add.particles('snow');
     var emitter = particles.createEmitter({
-      x: { min: fiksForPikselratio(-10), max: this.bredde + fiksForPikselratio(10) },
+      x: { min: fiksForPikselratio(-10), max: this.bredde * 2 },
       y: fiksForPikselratio(-10),
       lifespan: { min: 20000, max: 60000 },
       speedY: { min: fiksForPikselratio(2), max: fiksForPikselratio(10) },
@@ -47,7 +47,7 @@ export class MainScene extends Phaser.Scene {
       rotate: { start: 0, end: 180 },
       frame: [0, 1, 2],
     });
-    emitter.scrollFactorX = 0;
+    emitter.scrollFactorX = this.bredde / fiksForPikselratio(this.map.widthInPixels);
     emitter.randomFrame = true;
 
     const platformLayer = this.map.createLayer('level03', [tiles, presents, coronas]);
