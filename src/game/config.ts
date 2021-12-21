@@ -42,8 +42,6 @@ export function createGameConfig(
       // autoCenter: Phaser.Scale.Center.CENTER_VERTICALLY,
       // expandParent: true
 
-      // width: bredde * window.devicePixelRatio,
-      // height: hoyde * window.devicePixelRatio,
       zoom: 1 / pixelRatio,
       // autoRound: true,
     },
