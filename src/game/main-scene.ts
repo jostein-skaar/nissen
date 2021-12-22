@@ -12,6 +12,8 @@ export class MainScene extends Phaser.Scene {
   timeSinceLastJump: number | undefined = undefined;
   backgroundMountains!: Phaser.GameObjects.TileSprite;
   backgroundSnow!: Phaser.GameObjects.TileSprite;
+  collectedPresents = 0;
+  collectedPresentsText!: Phaser.GameObjects.Text;
 
   constructor() {
     super('main-scene');
@@ -24,18 +26,22 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
+    const tilesSize = fiksForPikselratio(32);
+
+    this.presentsGroup = this.physics.add.group({ allowGravity: false });
+
     this.map = this.make.tilemap({ key: 'map' });
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
     const coronas = this.map.addTilesetImage(`korona-sprite@${fiksForPikselratio(1)}`, 'coronas');
 
     this.backgroundMountains = this.add
-      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains', 0)
+      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains')
       .setOrigin(0, 0)
       .setScrollFactor(0)
       .setScale(fiksForPikselratio(1));
     this.backgroundSnow = this.add
-      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow', 1)
+      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow')
       .setOrigin(0, 0)
       .setScale(fiksForPikselratio(1))
       .setScrollFactor(0);
@@ -68,15 +74,24 @@ export class MainScene extends Phaser.Scene {
       immovable: true,
     });
 
-    const t = platformLayer.getTileAt(1, 0);
+    const presentsFirstGid = this.map.tilesets.find((x) => x.name.startsWith('presents-sprite'))?.firstgid!;
+    for (let x = 0; x < this.map.width; x++) {
+      for (let y = 0; y < this.map.height; y++) {
+        if (platformLayer.hasTileAt(x, y)) {
+          const t = platformLayer.getTileAt(x, y);
+          if (t.properties.present === true) {
+            t.visible = false;
+            this.presentsGroup.create(x * tilesSize, y * tilesSize, 'present', t.index - presentsFirstGid).setOrigin(0, 0);
+          }
+        }
+      }
+    }
+
     // t.visible = false;
     // // platformLayer
 
-    console.log('tile', t);
-
     // this.groundLayer = map.createLayer('Level01', tiles);
     // map.createLayer('Foreground', tiles);
-    const tilesSize = fiksForPikselratio(32);
 
     this.helt = this.physics.add.sprite(0, 0, 'helt');
     this.helt.setPosition(this.helt.width / 2, this.hoyde - this.helt.height / 2 - tilesSize * 2);
@@ -106,6 +121,20 @@ export class MainScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     this.physics.add.collider(this.helt, platformLayer);
+
+    this.physics.add.overlap(this.helt, this.presentsGroup, (_helt, present) => {
+      //@ts-ignore
+      present.disableBody(true, true);
+      this.collectedPresents += 1;
+      this.updateText();
+    });
+
+    this.collectedPresentsText = this.add.text(fiksForPikselratio(16), fiksForPikselratio(16), '', {
+      fontSize: `${fiksForPikselratio(24)}px`,
+      color: '#000',
+    });
+    this.collectedPresentsText.setScrollFactor(0, 0);
+    this.reset();
   }
 
   update(time: number): void {
@@ -148,5 +177,14 @@ export class MainScene extends Phaser.Scene {
     if (this.helt.x > this.map.widthInPixels) {
       this.scene.restart();
     }
+  }
+
+  private updateText() {
+    this.collectedPresentsText.setText(`pakker: ${this.collectedPresents}`);
+  }
+
+  private reset() {
+    this.collectedPresents = 0;
+    this.updateText();
   }
 }

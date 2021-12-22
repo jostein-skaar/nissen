@@ -16,6 +16,13 @@ export class PreloadScene extends Phaser.Scene {
       spacing: 2,
     });
 
+    this.load.spritesheet('present', `/assets/presents-sprite@${fiksForPikselratio(1)}.png`, {
+      frameWidth: fiksForPikselratio(32),
+      frameHeight: fiksForPikselratio(32),
+      margin: 1,
+      spacing: 2,
+    });
+
     this.load.image('tiles', `/assets/tiles-sprite@${fiksForPikselratio(1)}.png`);
     this.load.image('presents', `/assets/presents-sprite@${fiksForPikselratio(1)}.png`);
     this.load.image('coronas', `/assets/korona-sprite@${fiksForPikselratio(1)}.png`);
