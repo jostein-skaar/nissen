@@ -28,9 +28,12 @@ const gameConfig = createGameConfig(400, 640, Phaser.Scale.ScaleModes.NONE, pixe
 new Phaser.Game(gameConfig);
 
 window.onload = () => {
-  const loader = document.querySelector<HTMLDivElement>('#loader')!;
-  loader.style.display = 'none';
+  setTimeout(() => {
+    console.log("onload: Let's wait a little more...");
+    const loader = document.querySelector<HTMLDivElement>('#loader')!;
+    loader.style.display = 'none';
 
-  const game = document.querySelector<HTMLDivElement>('#game')!;
-  game.style.display = 'block';
+    const game = document.querySelector<HTMLDivElement>('#game')!;
+    game.style.display = 'block';
+  }, 2000);
 };
