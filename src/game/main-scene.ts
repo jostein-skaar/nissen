@@ -171,7 +171,7 @@ export class MainScene extends Phaser.Scene {
     this.physics.pause();
   }
 
-  update(time: number): void {
+  update(): void {
     // Because we use background@1-versions (pixelRatio=1), we need to compensate the scrolling.
     this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
     this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
