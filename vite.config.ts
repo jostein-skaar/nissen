@@ -5,6 +5,7 @@ export default {
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['assets/**.{json,png}'],
+      manifest: false,
     }),
   ],
 };
