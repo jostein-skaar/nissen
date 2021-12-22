@@ -10,8 +10,8 @@ export class MainScene extends Phaser.Scene {
   presentsGroup!: Phaser.Physics.Arcade.Group;
   hasJumpedTwice = false;
   timeSinceLastJump: number | undefined = undefined;
-  // backgroundMountains!: Phaser.GameObjects.TileSprite;
-  // backgroundSnow!: Phaser.GameObjects.TileSprite;
+  backgroundMountains!: Phaser.GameObjects.TileSprite;
+  backgroundSnow!: Phaser.GameObjects.TileSprite;
 
   constructor() {
     super('main-scene');
@@ -29,8 +29,11 @@ export class MainScene extends Phaser.Scene {
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
     const coronas = this.map.addTilesetImage(`korona-sprite@${fiksForPikselratio(1)}`, 'coronas');
 
-    // this.backgroundMountains = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 0).setOrigin(0, 0).setScrollFactor(0);
-    // this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background', 1).setOrigin(0, 0).setScrollFactor(0);
+    this.backgroundMountains = this.add
+      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains', 0)
+      .setOrigin(0, 0)
+      .setScrollFactor(0);
+    this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow', 1).setOrigin(0, 0).setScrollFactor(0);
 
     const snowScrollFactor = 0.5;
     const particles = this.add.particles('snow');
@@ -101,8 +104,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number): void {
-    // this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.2;
-    // this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
+    this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.2;
+    this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
 
     if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
       console.log('Klar for hoppings?', this.helt.body.touching);
