@@ -33,13 +33,17 @@ window.onload = () => {
   const preload = document.querySelector<HTMLDivElement>('#preload')!;
   const game = document.querySelector<HTMLDivElement>('#game')!;
 
-  preload.style.display = 'block';
-  game.style.opacity = '0';
+  loader.style.display = 'none';
+  preload.style.display = 'none';
   game.style.display = 'block';
 
-  setTimeout(() => {
-    loader.style.display = 'none';
-    preload.style.display = 'none';
-    game.style.opacity = '1';
-  }, 500);
+  // preload.style.display = 'block';
+  // game.style.opacity = '0';
+  // game.style.display = 'block';
+
+  // setTimeout(() => {
+  //   loader.style.display = 'none';
+  //   preload.style.display = 'none';
+  //   game.style.opacity = '1';
+  // }, 500);
 };

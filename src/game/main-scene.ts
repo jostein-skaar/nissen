@@ -32,8 +32,13 @@ export class MainScene extends Phaser.Scene {
     this.backgroundMountains = this.add
       .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains', 0)
       .setOrigin(0, 0)
+      .setScrollFactor(0)
+      .setScale(fiksForPikselratio(1));
+    this.backgroundSnow = this.add
+      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow', 1)
+      .setOrigin(0, 0)
+      .setScale(fiksForPikselratio(1))
       .setScrollFactor(0);
-    this.backgroundSnow = this.add.tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow', 1).setOrigin(0, 0).setScrollFactor(0);
 
     const snowScrollFactor = 0.5;
     const particles = this.add.particles('snow');
@@ -63,11 +68,11 @@ export class MainScene extends Phaser.Scene {
       immovable: true,
     });
 
-    // const t = platformLayer.getTileAt(1, 0);
+    const t = platformLayer.getTileAt(1, 0);
     // t.visible = false;
     // // platformLayer
 
-    // console.log('tile', t);
+    console.log('tile', t);
 
     // this.groundLayer = map.createLayer('Level01', tiles);
     // map.createLayer('Foreground', tiles);
@@ -104,8 +109,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   update(time: number): void {
-    this.backgroundMountains.tilePositionX = this.cameras.main.scrollX * 0.2;
-    this.backgroundSnow.tilePositionX = this.cameras.main.scrollX * 0.6;
+    // Because we use background@1-versions (pixelRatio=1), we need to compensate the scrolling.
+    this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
+    this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
 
     if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
       console.log('Klar for hoppings?', this.helt.body.touching);
