@@ -8,12 +8,15 @@ export class MainScene extends Phaser.Scene {
   map!: Phaser.Tilemaps.Tilemap;
   helt!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   presentsGroup!: Phaser.Physics.Arcade.Group;
+  enemyGroup!: Phaser.Physics.Arcade.Group;
   hasJumpedTwice = false;
   timeSinceLastJump: number | undefined = undefined;
   backgroundMountains!: Phaser.GameObjects.TileSprite;
   backgroundSnow!: Phaser.GameObjects.TileSprite;
   collectedPresents = 0;
   collectedPresentsText!: Phaser.GameObjects.Text;
+  startInfoText!: Phaser.GameObjects.Text;
+  paused: boolean = false;
 
   constructor() {
     super('main-scene');
@@ -23,12 +26,12 @@ export class MainScene extends Phaser.Scene {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
     // this.innstillinger = spillressursinfo(this.bredde, this.hoyde);
+
+    this.showStartInfo();
   }
 
   create(): void {
     const tilesSize = fiksForPikselratio(32);
-
-    this.presentsGroup = this.physics.add.group({ allowGravity: false });
 
     this.map = this.make.tilemap({ key: 'map' });
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
@@ -74,6 +77,20 @@ export class MainScene extends Phaser.Scene {
       immovable: true,
     });
 
+    this.enemyGroup = this.physics.add.group({
+      allowGravity: false,
+      immovable: true,
+    });
+
+    this.anims.create({
+      key: 'blink',
+      frames: this.anims.generateFrameNumbers('corona', { frames: [0, 1, 0, 1, 0] }),
+      frameRate: 7,
+      repeat: -1,
+      delay: 1500,
+      repeatDelay: 3000,
+    });
+
     const presentsFirstGid = this.map.tilesets.find((x) => x.name.startsWith('presents-sprite'))?.firstgid!;
     for (let x = 0; x < this.map.width; x++) {
       for (let y = 0; y < this.map.height; y++) {
@@ -82,6 +99,11 @@ export class MainScene extends Phaser.Scene {
           if (t.properties.present === true) {
             t.visible = false;
             this.presentsGroup.create(x * tilesSize, y * tilesSize, 'present', t.index - presentsFirstGid).setOrigin(0, 0);
+          } else if (t.properties.corona === true) {
+            t.visible = false;
+            const corona = this.physics.add.sprite(x * tilesSize, y * tilesSize, 'corona').setOrigin(0, 0);
+            this.enemyGroup.add(corona);
+            corona.play('blink', true);
           }
         }
       }
@@ -94,7 +116,7 @@ export class MainScene extends Phaser.Scene {
     // map.createLayer('Foreground', tiles);
 
     this.helt = this.physics.add.sprite(0, 0, 'helt');
-    this.helt.setPosition(this.helt.width / 2, this.hoyde - this.helt.height / 2 - tilesSize * 2);
+    this.helt.setPosition(this.helt.width / 2, this.hoyde - this.helt.height / 2 - tilesSize);
 
     this.helt.anims.create({
       key: 'walk',
@@ -110,6 +132,7 @@ export class MainScene extends Phaser.Scene {
       key: 'jump',
       frames: this.anims.generateFrameNumbers('helt', { frames: [0] }),
     });
+
     // this.helt.anims.play('walk', true);
     this.helt.setBounce(0.1);
 
@@ -129,12 +152,20 @@ export class MainScene extends Phaser.Scene {
       this.updateText();
     });
 
+    this.physics.add.overlap(this.helt, this.enemyGroup, (_helt, _enemy) => {
+      this.lose();
+    });
+
     this.collectedPresentsText = this.add.text(fiksForPikselratio(16), fiksForPikselratio(16), '', {
       fontSize: `${fiksForPikselratio(24)}px`,
       color: '#000',
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
-    this.reset();
+    this.createStartInfoText();
+
+    this.helt.play('stand', true);
+    this.paused = true;
+    this.physics.pause();
   }
 
   update(time: number): void {
@@ -166,14 +197,15 @@ export class MainScene extends Phaser.Scene {
     }
 
     // Animasjoner.
-    if (this.helt.body.onFloor() && !this.helt.body.onWall()) {
-      this.helt.play('walk', true);
-    } else if (!this.helt.body.onFloor()) {
-      this.helt.play('jump', true);
-    } else {
-      this.helt.play('stand', true);
+    if (!this.paused) {
+      if (this.helt.body.onFloor() && !this.helt.body.onWall()) {
+        this.helt.play('walk', true);
+      } else if (!this.helt.body.onFloor()) {
+        this.helt.play('jump', true);
+      } else {
+        this.helt.play('stand', true);
+      }
     }
-
     if (this.helt.x > this.map.widthInPixels) {
       this.scene.restart();
     }
@@ -183,8 +215,44 @@ export class MainScene extends Phaser.Scene {
     this.collectedPresentsText.setText(`pakker: ${this.collectedPresents}`);
   }
 
-  private reset() {
+  private showStartInfo() {}
+
+  createStartInfoText(): void {
+    const tekst = `Stakkars nissen har falt\n av sleden og mista alle\npakkene. Kan du hjelpe\n ham å samle så mange som\n mulig uten å få få korona?\n\nTrykk her for å begynne.`;
+    this.startInfoText = this.add
+      .text(this.bredde / 2, this.hoyde / 2, tekst, {
+        fontSize: `${fiksForPikselratio(20)}px`,
+        color: '#000',
+        align: 'center',
+        backgroundColor: '#ccc',
+        padding: { x: 10, y: 10 },
+      })
+      .setOrigin(0.5, 0.5);
+
+    setTimeout(() => {
+      this.input.once('pointerup', () => {
+        this.startGame();
+      });
+    }, 100);
+  }
+
+  startGame() {
+    this.startInfoText.visible = false;
     this.collectedPresents = 0;
     this.updateText();
+    this.physics.resume();
+    this.paused = false;
+  }
+
+  private lose() {
+    this.helt.setTint(0xff0000);
+
+    this.scene.pause();
+    this.cameras.main.setBackgroundColor(0xbababa);
+    this.cameras.main.setAlpha(0.5);
+
+    setTimeout(() => {
+      this.scene.restart();
+    }, 1500);
   }
 }
