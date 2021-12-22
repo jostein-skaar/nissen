@@ -46,7 +46,7 @@ window.onload = () => {
   //   loader.style.display = 'none';
   //   preload.style.display = 'none';
   //   game.style.opacity = '1';
-  // }, 500);
+  // }, 500);//
 };
 
 registerSW();
