@@ -1,21 +1,26 @@
-html {
-  box-sizing: border-box;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  height: 100%;
 }
-
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
 
-html,
-body {
+#game {
   height: 100%;
-  overflow: hidden;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #ffffff;
+.version {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 3px;
+  opacity: 0.5;
+  font-size: 0.6rem;
 }
