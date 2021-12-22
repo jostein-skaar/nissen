@@ -17,16 +17,17 @@ export class MainScene extends Phaser.Scene {
   collectedPresentsText!: Phaser.GameObjects.Text;
   startInfoText!: Phaser.GameObjects.Text;
   paused: boolean = false;
+  level!: string;
 
   constructor() {
     super('main-scene');
   }
 
-  init(): void {
+  init(data: any): void {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
     // this.innstillinger = spillressursinfo(this.bredde, this.hoyde);
-
+    this.level = data.level;
     this.showStartInfo();
   }
 
@@ -69,7 +70,7 @@ export class MainScene extends Phaser.Scene {
     emitter.randomFrame = true;
     console.log('this.map.widthInPixels', this.map.widthInPixels);
 
-    const platformLayer = this.map.createLayer('level01', [tiles, presents, coronas]);
+    const platformLayer = this.map.createLayer(this.level, [tiles, presents, coronas]);
     platformLayer.setCollisionByProperty({ collision: true });
 
     this.presentsGroup = this.physics.add.group({
@@ -137,7 +138,9 @@ export class MainScene extends Phaser.Scene {
     this.helt.setBounce(0.1);
 
     this.input.on('pointerdown', () => {
-      console.log('hopp');
+      //if (this.helt.body.blocked.down || this.helt.body.touching.down) {
+      this.helt.setVelocityY(fiksForPikselratio(-200));
+      //}
     });
 
     this.cameras.main.startFollow(this.helt);
@@ -173,28 +176,39 @@ export class MainScene extends Phaser.Scene {
     this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
     this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
 
-    if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
-      console.log('Klar for hoppings?', this.helt.body.touching);
-    }
+    // if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
+    //   this.helt.setVelocityY(fiksForPikselratio(-200));
+    //   console.log('satt hopp');
+    // } else {
+    //   this.helt.setVelocityX(fiksForPikselratio(100));
+    //   if (this.helt.body.blocked.down || this.helt.body.touching.down) {
+    //     console.log('har landa');
+    //   }
+    // }
 
     // TODO: Problem når hoppa og landa. Kan ikke dobelthoppe neste gang.
-    if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
-      this.helt.setVelocityY(fiksForPikselratio(-200));
-      // 300 ms er for å sikre at man er ferdig å klikke første gang.
-      // Lavt tall her gjør at man må tappe spesielt fort på en touch skjerm.
-      if (!this.timeSinceLastJump || time - this.timeSinceLastJump > 300) {
-        if (this.hasJumpedTwice) {
-          console.log('update2', this.hasJumpedTwice, time);
-          this.hasJumpedTwice = false;
-        } else {
-          console.log('update3', this.hasJumpedTwice, time);
-          this.hasJumpedTwice = true;
-          this.timeSinceLastJump = time;
-        }
-      }
-    } else {
-      this.helt.setVelocityX(fiksForPikselratio(100));
-    }
+    // if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
+    //   this.helt.setVelocityY(fiksForPikselratio(-200));
+    //   // 400 ms er for å sikre at man er ferdig å klikke første gang.
+    //   // Lavt tall her gjør at man må tappe spesielt fort på en touch skjerm.
+    //   if (this.timeSinceLastJump && time - this.timeSinceLastJump > 4000) {
+    //     this.hasJumpedTwice = false;
+    //     this.timeSinceLastJump = undefined;
+    //   } else if (!this.timeSinceLastJump || time - this.timeSinceLastJump > 400) {
+    //     if (this.hasJumpedTwice) {
+    //       console.log('update2', this.hasJumpedTwice, time);
+    //       this.hasJumpedTwice = false;
+    //     } else {
+    //       console.log('update3', this.hasJumpedTwice, time);
+    //       this.hasJumpedTwice = true;
+    //       this.timeSinceLastJump = time;
+    //     }
+    //   }
+    // } //else {
+    //   this.helt.setVelocityX(fiksForPikselratio(100));
+    // }
+
+    this.helt.setVelocityX(fiksForPikselratio(100));
 
     // Animasjoner.
     if (!this.paused) {
@@ -207,7 +221,11 @@ export class MainScene extends Phaser.Scene {
       }
     }
     if (this.helt.x > this.map.widthInPixels) {
-      this.scene.restart();
+      this.scene.restart({ level: this.level });
+    }
+
+    if (this.helt.y > this.map.heightInPixels) {
+      this.lose();
     }
   }
 
@@ -218,7 +236,7 @@ export class MainScene extends Phaser.Scene {
   private showStartInfo() {}
 
   createStartInfoText(): void {
-    const tekst = `Stakkars nissen har falt\n av sleden og mista alle\npakkene. Kan du hjelpe\n ham å samle så mange som\n mulig uten å få få korona?\n\nTrykk her for å begynne.`;
+    const tekst = `Stakkars nissen har falt\n av sleden og mista alle\npakkene. Kan du hjelpe\n ham å samle så mange som\n mulig uten å få korona?\n\nTrykk her for å begynne.`;
     this.startInfoText = this.add
       .text(this.bredde / 2, this.hoyde / 2, tekst, {
         fontSize: `${fiksForPikselratio(20)}px`,
@@ -229,11 +247,14 @@ export class MainScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0.5);
 
-    setTimeout(() => {
-      this.input.once('pointerup', () => {
-        this.startGame();
-      });
-    }, 100);
+    this.input.once('pointerup', () => {
+      this.startGame();
+    });
+    // setTimeout(() => {
+    //   this.input.once('pointerup', () => {
+    //     this.startGame();
+    //   });
+    // }, 100);
   }
 
   startGame() {
@@ -252,7 +273,7 @@ export class MainScene extends Phaser.Scene {
     this.cameras.main.setAlpha(0.5);
 
     setTimeout(() => {
-      this.scene.restart();
-    }, 1500);
+      this.scene.restart({ level: this.level });
+    }, 2000);
   }
 }
