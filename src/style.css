@@ -12,15 +12,12 @@ body {
   box-sizing: inherit;
 }
 
-#game {
-  height: 100%;
+#preload {
+  font-size: clamp(2rem, 3rem, 4rem);
+  text-align: center;
+  margin-top: 20px;
 }
 
-.version {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 3px;
-  opacity: 0.5;
-  font-size: 0.6rem;
+#game {
+  height: 100%;
 }
