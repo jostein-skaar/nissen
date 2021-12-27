@@ -15,7 +15,9 @@
   <body>
     <script type="module" src="/src/main.ts"></script>
 
-    <img id="loader" src="loader.svg" style="display: block; width: 50vh; height: 50vw; margin: 0 auto" />
+    <div id="loader" style="height: 100vh; display: flex; justify-content: center; align-items: center">
+      <img src="loader.svg" style="display: block; width: 75vh; height: 75vw" />
+    </div>
     <div id="preload" style="display: none">Snart klar</div>
     <div id="game" style="display: none"></div>
     <div style="position: absolute; bottom: 10px; right: 10px; padding: 3px; opacity: 0.5; font-size: 0.6rem">{VERSJON}</div>

@@ -24,7 +24,7 @@ declare global {
 }
 globalThis.pixelRatio = pixelRatio;
 
-const maxWantedWidth = 450;
+const maxWantedWidth = 640;
 // Height should always be 640px. This is from the tilemap.
 const height = 640;
 // Width is not that important, but shouldn't be to wide.
@@ -59,9 +59,9 @@ window.onload = () => {
   const preload = document.querySelector<HTMLDivElement>('#preload')!;
   const game = document.querySelector<HTMLDivElement>('#game')!;
 
-  loader.style.display = 'none';
-  preload.style.display = 'none';
-  game.style.display = 'block';
+  // loader.style.display = 'none';
+  // preload.style.display = 'none';
+  // game.style.display = 'block';
 
   // preload.style.display = 'block';
   // game.style.opacity = '0';
