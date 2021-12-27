@@ -2,7 +2,6 @@ import './style.css';
 
 import Phaser from 'phaser';
 import { createGameConfig } from './game/config';
-import { registerSW } from 'virtual:pwa-register';
 
 let isDebug = true;
 
@@ -73,5 +72,3 @@ window.onload = () => {
   //   game.style.opacity = '1';
   // }, 500);//
 };
-
-registerSW();
