@@ -21,3 +21,9 @@ body {
 #game {
   height: 100%;
 }
+
+@media only screen and (min-device-width: 660px) and (min-device-height: 660px) {
+  #game canvas {
+    border: 10px dashed #b3000c;
+  }
+}

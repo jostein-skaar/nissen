@@ -59,9 +59,9 @@ window.onload = () => {
   const preload = document.querySelector<HTMLDivElement>('#preload')!;
   const game = document.querySelector<HTMLDivElement>('#game')!;
 
-  // loader.style.display = 'none';
-  // preload.style.display = 'none';
-  // game.style.display = 'block';
+  loader.style.display = 'none';
+  preload.style.display = 'none';
+  game.style.display = 'block';
 
   // preload.style.display = 'block';
   // game.style.opacity = '0';
