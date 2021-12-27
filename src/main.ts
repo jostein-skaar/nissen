@@ -24,10 +24,11 @@ declare global {
 }
 globalThis.pixelRatio = pixelRatio;
 
+const maxWantedWidth = 450;
 // Height should always be 640px. This is from the tilemap.
 const height = 640;
 // Width is not that important, but shouldn't be to wide.
-let width = 400;
+let width = maxWantedWidth;
 
 // TODO: Should fit if iPad...
 
@@ -38,9 +39,9 @@ if (window.innerHeight < height) {
   const scaleRatio = window.innerHeight / height;
   console.log('scaleRatio', scaleRatio);
   // Compensate scale ratio to be able to fill width of screen when FIT is used.
-  width = Math.min(window.innerWidth / scaleRatio, 400);
+  width = Math.min(window.innerWidth / scaleRatio, maxWantedWidth);
 } else {
-  width = Math.min(window.innerWidth, 400);
+  width = Math.min(window.innerWidth, maxWantedWidth);
 }
 
 if (width < window.innerWidth) {
