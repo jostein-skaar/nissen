@@ -3,6 +3,20 @@ import './style.css';
 import Phaser from 'phaser';
 import { createGameConfig } from './game/config';
 
+// const hackForIos = Date.now();
+// const erIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
+// let omstartVedResizeTimeout: any;
+// window.onresize = () => {
+//   if (erIos && Date.now() - hackForIos < 1000) {
+//     return;
+//   }
+
+//   clearTimeout(omstartVedResizeTimeout);
+//   omstartVedResizeTimeout = setTimeout(() => {
+//     window.location.reload();
+//   }, 200);
+// };
+
 let isDebug = true;
 
 if (import.meta.env.PROD) {

@@ -112,12 +112,6 @@ export class MainScene extends Phaser.Scene {
       }
     }
 
-    // t.visible = false;
-    // // platformLayer
-
-    // this.groundLayer = map.createLayer('Level01', tiles);
-    // map.createLayer('Foreground', tiles);
-
     this.helt = this.physics.add.sprite(0, 0, 'helt');
     this.helt.setPosition(this.helt.width / 2, this.hoyde - this.helt.height / 2 - tilesSize);
 
