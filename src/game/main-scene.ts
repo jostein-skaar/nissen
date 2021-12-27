@@ -18,6 +18,7 @@ export class MainScene extends Phaser.Scene {
   startInfoText!: Phaser.GameObjects.Text;
   paused: boolean = false;
   level!: string;
+  useParallax = false;
 
   constructor() {
     super('main-scene');
@@ -39,16 +40,18 @@ export class MainScene extends Phaser.Scene {
     const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
     const coronas = this.map.addTilesetImage(`korona-sprite@${fiksForPikselratio(1)}`, 'coronas');
 
-    this.backgroundMountains = this.add
-      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains')
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
-      .setScale(fiksForPikselratio(1));
-    this.backgroundSnow = this.add
-      .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow')
-      .setOrigin(0, 0)
-      .setScale(fiksForPikselratio(1))
-      .setScrollFactor(0);
+    if (this.useParallax) {
+      this.backgroundMountains = this.add
+        .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains')
+        .setOrigin(0, 0)
+        .setScrollFactor(0)
+        .setScale(fiksForPikselratio(1));
+      this.backgroundSnow = this.add
+        .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow')
+        .setOrigin(0, 0)
+        .setScale(fiksForPikselratio(1))
+        .setScrollFactor(0);
+    }
 
     const snowScrollFactor = 0.5;
     const particles = this.add.particles('snow');
@@ -173,8 +176,10 @@ export class MainScene extends Phaser.Scene {
 
   update(): void {
     // Because we use background@1-versions (pixelRatio=1), we need to compensate the scrolling.
-    this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
-    this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
+    if (this.useParallax) {
+      this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
+      this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
+    }
 
     // if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
     //   this.helt.setVelocityY(fiksForPikselratio(-200));
