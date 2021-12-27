@@ -2,7 +2,9 @@ import './style.css';
 
 import Phaser from 'phaser';
 import { createGameConfig } from './game/config';
+import { reloadWhenResize } from '@jostein-skaar/common-game';
 
+reloadWhenResize(window);
 // const hackForIos = Date.now();
 // const erIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
 // let omstartVedResizeTimeout: any;
