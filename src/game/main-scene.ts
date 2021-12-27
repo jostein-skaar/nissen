@@ -9,7 +9,7 @@ export class MainScene extends Phaser.Scene {
   helt!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   presentsGroup!: Phaser.Physics.Arcade.Group;
   enemyGroup!: Phaser.Physics.Arcade.Group;
-  hasJumpedTwice = false;
+  hasJumpedTwice: boolean | undefined;
   backgroundMountains!: Phaser.GameObjects.TileSprite;
   backgroundSnow!: Phaser.GameObjects.TileSprite;
   collectedPresents = 0;
@@ -134,10 +134,12 @@ export class MainScene extends Phaser.Scene {
     this.helt.setBounce(0.1);
 
     this.input.on('pointerdown', () => {
-      if (this.helt.body.blocked.down || this.helt.body.touching.down) {
+      console.log(this.helt.body.onFloor(), this.helt.body.touching.down, this.hasJumpedTwice === false);
+      if (this.helt.body.onFloor()) {
+        // || this.helt.body.touching.down) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
         this.hasJumpedTwice = false;
-      } else if (!this.hasJumpedTwice) {
+      } else if (this.hasJumpedTwice === false) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
         this.hasJumpedTwice = true;
       }
@@ -153,6 +155,7 @@ export class MainScene extends Phaser.Scene {
       present.disableBody(true, true);
       this.collectedPresents += 1;
       this.updateText();
+
       // this.hasJumpedTwice = false;
     });
 
