@@ -10,7 +10,6 @@ export class MainScene extends Phaser.Scene {
   presentsGroup!: Phaser.Physics.Arcade.Group;
   enemyGroup!: Phaser.Physics.Arcade.Group;
   hasJumpedTwice = false;
-  timeSinceLastJump: number | undefined = undefined;
   backgroundMountains!: Phaser.GameObjects.TileSprite;
   backgroundSnow!: Phaser.GameObjects.TileSprite;
   collectedPresents = 0;
@@ -27,7 +26,6 @@ export class MainScene extends Phaser.Scene {
   init(data: any): void {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
-    // this.innstillinger = spillressursinfo(this.bredde, this.hoyde);
     this.level = data.level;
     this.showStartInfo();
   }
@@ -37,15 +35,13 @@ export class MainScene extends Phaser.Scene {
 
     this.map = this.make.tilemap({ key: 'map' });
     const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
-    const presents = this.map.addTilesetImage(`presents-sprite@${fiksForPikselratio(1)}`, 'presents');
-    const coronas = this.map.addTilesetImage(`korona-sprite@${fiksForPikselratio(1)}`, 'coronas');
 
     if (this.useParallax) {
       this.backgroundMountains = this.add
         .tileSprite(0, 0, this.bredde, this.hoyde, 'background-mountains')
         .setOrigin(0, 0)
-        .setScrollFactor(0)
-        .setScale(fiksForPikselratio(1));
+        .setScale(fiksForPikselratio(1))
+        .setScrollFactor(0);
       this.backgroundSnow = this.add
         .tileSprite(0, 0, this.bredde, this.hoyde, 'background-snow')
         .setOrigin(0, 0)
@@ -73,7 +69,7 @@ export class MainScene extends Phaser.Scene {
     emitter.randomFrame = true;
     console.log('this.map.widthInPixels', this.map.widthInPixels);
 
-    const platformLayer = this.map.createLayer(this.level, [tiles, presents, coronas]);
+    const platformLayer = this.map.createLayer(this.level, [tiles]);
     platformLayer.setCollisionByProperty({ collision: true });
 
     this.presentsGroup = this.physics.add.group({
@@ -105,7 +101,10 @@ export class MainScene extends Phaser.Scene {
             this.presentsGroup.create(x * tilesSize, y * tilesSize, 'present', t.index - presentsFirstGid).setOrigin(0, 0);
           } else if (t.properties.corona === true) {
             t.visible = false;
-            const corona = this.physics.add.sprite(x * tilesSize, y * tilesSize, 'corona').setOrigin(0, 0);
+            const corona = this.physics.add
+              .sprite(x * tilesSize, y * tilesSize, 'corona')
+              .setOrigin(0, 0)
+              .setSize(fiksForPikselratio(20), fiksForPikselratio(20));
             this.enemyGroup.add(corona);
             corona.play('blink', true);
           }
@@ -141,9 +140,13 @@ export class MainScene extends Phaser.Scene {
     this.helt.setBounce(0.1);
 
     this.input.on('pointerdown', () => {
-      //if (this.helt.body.blocked.down || this.helt.body.touching.down) {
-      this.helt.setVelocityY(fiksForPikselratio(-200));
-      //}
+      if (this.helt.body.blocked.down || this.helt.body.touching.down) {
+        this.helt.setVelocityY(fiksForPikselratio(-200));
+        this.hasJumpedTwice = false;
+      } else if (!this.hasJumpedTwice) {
+        this.helt.setVelocityY(fiksForPikselratio(-200));
+        this.hasJumpedTwice = true;
+      }
     });
 
     this.cameras.main.startFollow(this.helt);
@@ -156,6 +159,7 @@ export class MainScene extends Phaser.Scene {
       present.disableBody(true, true);
       this.collectedPresents += 1;
       this.updateText();
+      // this.hasJumpedTwice = false;
     });
 
     this.physics.add.overlap(this.helt, this.enemyGroup, (_helt, _enemy) => {
