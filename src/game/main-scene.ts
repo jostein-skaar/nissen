@@ -117,31 +117,35 @@ export class MainScene extends Phaser.Scene {
 
     this.helt.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers('helt', { frames: [1, 0] }),
+      frames: this.anims.generateFrameNumbers('helt', { frames: [1, 2] }),
       frameRate: 6,
-      repeat: -1,
     });
     this.helt.anims.create({
       key: 'stand',
-      frames: this.anims.generateFrameNumbers('helt', { frames: [1] }),
+      frames: this.anims.generateFrameNumbers('helt', { frames: [0] }),
     });
     this.helt.anims.create({
       key: 'jump',
-      frames: this.anims.generateFrameNumbers('helt', { frames: [0] }),
+      frames: this.anims.generateFrameNumbers('helt', { frames: [3, 4] }),
+      frameRate: 9,
     });
 
     // this.helt.anims.play('walk', true);
-    this.helt.setBounce(0.1);
+    // this.helt.setBounce(0);
 
     this.input.on('pointerdown', () => {
-      console.log(this.helt.body.onFloor(), this.helt.body.touching.down, this.hasJumpedTwice === false);
+      // console.log(this.helt.body.onFloor(), this.helt.body.touching.down, this.hasJumpedTwice === false);
       if (this.helt.body.onFloor()) {
         // || this.helt.body.touching.down) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
         this.hasJumpedTwice = false;
+        console.log('HOPP: onFloor()');
       } else if (this.hasJumpedTwice === false) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
         this.hasJumpedTwice = true;
+        console.log('HOPP: hasJumpedTwice === false');
+      } else {
+        console.log('HOPP: else');
       }
     });
 
@@ -265,6 +269,7 @@ export class MainScene extends Phaser.Scene {
 
   startGame() {
     this.startInfoText.visible = false;
+    this.hasJumpedTwice = false;
     this.collectedPresents = 0;
     this.updateText();
     this.physics.resume();
