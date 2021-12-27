@@ -5,19 +5,6 @@ import { createGameConfig } from './game/config';
 import { reloadWhenResize } from '@jostein-skaar/common-game';
 
 reloadWhenResize(window);
-// const hackForIos = Date.now();
-// const erIos = /iPad|iPhone|iPod/.test(navigator.userAgent);
-// let omstartVedResizeTimeout: any;
-// window.onresize = () => {
-//   if (erIos && Date.now() - hackForIos < 1000) {
-//     return;
-//   }
-
-//   clearTimeout(omstartVedResizeTimeout);
-//   omstartVedResizeTimeout = setTimeout(() => {
-//     window.location.reload();
-//   }, 200);
-// };
 
 let isDebug = true;
 
