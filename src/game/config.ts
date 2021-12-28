@@ -18,10 +18,12 @@ export function createGameConfig(
     backgroundColor: 0x87ceeb,
     autoFocus: true,
     parent: 'game',
+
     render: {
+      roundPixels: true,
       // antialias: false, er default, giving a crisper appearance.
       // antialias: true, // giving a smooth appearance.
-      // roundPixels: true, round pixel values to whole integers? Prevent sub-pixel aliasing.
+      // roundPixels: true, round pixel values to whole integers? Prevent sub-pixel aliasing. (false er default)
       // pixelArt: true, gir antialias=false og roundPixels=true
     },
 

@@ -149,7 +149,6 @@ export class MainScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setRoundPixels(true);
     this.cameras.main.startFollow(this.helt);
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
