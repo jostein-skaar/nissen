@@ -30,6 +30,20 @@ body {
 
 @media only screen and (max-device-width: 640px) and (orientation: portrait) {
   #game {
-    background-color: #a05a2c;
+    background-color: #000;
+  }
+}
+
+@media only screen and (max-device-width: 1023px) and (orientation: landscape) {
+  #game {
+    display: none !important;
+    background-color: red;
+  }
+  #landscape {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 2rem;
   }
 }
