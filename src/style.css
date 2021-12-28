@@ -27,3 +27,9 @@ body {
     border: 10px dashed #b3000c;
   }
 }
+
+@media only screen and (max-device-width: 640px) {
+  #game {
+    background-color: #a05a2c;
+  }
+}

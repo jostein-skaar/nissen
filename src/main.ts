@@ -54,7 +54,7 @@ if (width < window.innerWidth) {
 console.table({ width, height, scaleModePhaser, centerModePhaser });
 
 const gameConfig = createGameConfig(width, height, scaleModePhaser, centerModePhaser, pixelRatio, isDebug);
-new Phaser.Game(gameConfig);
+const phaserGame = new Phaser.Game(gameConfig);
 
 window.onload = () => {
   console.log("onload: Let's wait a little more...");
@@ -65,6 +65,11 @@ window.onload = () => {
   loader.style.display = 'none';
   preload.style.display = 'none';
   game.style.display = 'block';
+
+  game.addEventListener('click', () => {
+    // Hack to be able to jump when clicking outside canvas.
+    phaserGame.scene.scenes[1].input.emit('pointerdown');
+  });
 
   // preload.style.display = 'block';
   // game.style.opacity = '0';
