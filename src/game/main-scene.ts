@@ -269,7 +269,7 @@ export class MainScene extends Phaser.Scene {
 
   startGame() {
     this.startInfoText.visible = false;
-    this.hasJumpedTwice = false;
+    this.hasJumpedTwice = undefined;
     this.collectedPresents = 0;
     this.updateText();
     this.physics.resume();
