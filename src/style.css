@@ -28,7 +28,7 @@ body {
   }
 }
 
-@media only screen and (max-device-width: 640px) {
+@media only screen and (max-device-width: 640px) and (orientation: portrait) {
   #game {
     background-color: #a05a2c;
   }
