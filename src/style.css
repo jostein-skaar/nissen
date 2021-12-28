@@ -12,10 +12,19 @@ body {
   box-sizing: inherit;
 }
 
-#preload {
-  font-size: clamp(2rem, 3rem, 4rem);
+#home {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 40px;
+}
+
+#home button {
+  font-size: 1.8rem;
+}
+
+#home img {
+  display: block;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 
 #game {
@@ -28,22 +37,9 @@ body {
   }
 }
 
+/* Black under game canvas when mobile portrait */
 @media only screen and (max-device-width: 640px) and (orientation: portrait) {
   #game {
     background-color: #000;
-  }
-}
-
-@media only screen and (max-device-width: 1023px) and (orientation: landscape) {
-  #game {
-    display: none !important;
-    background-color: red;
-  }
-  #landscape {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: 2rem;
   }
 }

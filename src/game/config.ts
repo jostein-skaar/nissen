@@ -1,3 +1,4 @@
+import { LostScene } from './lost-scene';
 import { MainScene } from './main-scene';
 import { PreloadScene } from './preload-scene';
 
@@ -12,7 +13,7 @@ export function createGameConfig(
   const gameConfig: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     // type: Phaser.CANVAS,
-    scene: [PreloadScene, MainScene],
+    scene: [PreloadScene, MainScene, LostScene],
     width: width * pixelRatio,
     height: height * pixelRatio,
     backgroundColor: 0x87ceeb,

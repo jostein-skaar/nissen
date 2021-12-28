@@ -56,15 +56,33 @@ console.table({ width, height, scaleModePhaser, centerModePhaser });
 const gameConfig = createGameConfig(width, height, scaleModePhaser, centerModePhaser, pixelRatio, isDebug);
 const phaserGame = new Phaser.Game(gameConfig);
 
+document.querySelector<HTMLDivElement>('.start-level01')?.addEventListener('click', () => {
+  startLevel('level01');
+});
+document.querySelector<HTMLDivElement>('.start-level02')?.addEventListener('click', () => {
+  startLevel('level02');
+});
+document.querySelector<HTMLDivElement>('.start-level03')?.addEventListener('click', () => {
+  startLevel('level03');
+});
+
+function startLevel(level: string) {
+  phaserGame.scene.start('main-scene', { level });
+  const home = document.querySelector<HTMLDivElement>('#home')!;
+  const game = document.querySelector<HTMLDivElement>('#game')!;
+  home.style.display = 'none';
+  game.style.display = 'block';
+}
+
 window.onload = () => {
   console.log("onload: Let's wait a little more...");
   const loader = document.querySelector<HTMLDivElement>('#loader')!;
-  const preload = document.querySelector<HTMLDivElement>('#preload')!;
+  const home = document.querySelector<HTMLDivElement>('#home')!;
   const game = document.querySelector<HTMLDivElement>('#game')!;
 
   loader.style.display = 'none';
-  preload.style.display = 'none';
-  game.style.display = 'block';
+  home.style.display = 'block';
+  game.style.display = 'none';
 
   // game.addEventListener('click', () => {
   //   // Hack to be able to jump when clicking outside canvas.

@@ -6,6 +6,11 @@ export class PreloadScene extends Phaser.Scene {
     super({ key: 'preload-scene' });
   }
   useParallax = false;
+  level!: string;
+
+  init(data: any): void {
+    this.level = data.level;
+  }
 
   preload() {
     console.log('preload-scene');
@@ -58,6 +63,6 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('main-scene', { level: 'level02' });
+    this.scene.start('main-scene', { level: this.level });
   }
 }

@@ -27,7 +27,6 @@ export class MainScene extends Phaser.Scene {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
     this.level = data.level;
-    this.showStartInfo();
   }
 
   create(): void {
@@ -132,6 +131,12 @@ export class MainScene extends Phaser.Scene {
 
     // this.helt.anims.play('walk', true);
     // this.helt.setBounce(0);
+    this.paused = true;
+    this.physics.pause();
+    this.input.once('pointerup', () => {
+      this.paused = false;
+      this.physics.resume();
+    });
 
     this.input.on('pointerdown', () => {
       // console.log(this.helt.body.onFloor(), this.helt.body.touching.down, this.hasJumpedTwice === false);
@@ -172,11 +177,6 @@ export class MainScene extends Phaser.Scene {
       color: '#000',
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
-    this.createStartInfoText();
-
-    this.helt.play('stand', true);
-    this.paused = true;
-    this.physics.pause();
   }
 
   update(): void {
@@ -246,48 +246,28 @@ export class MainScene extends Phaser.Scene {
     this.collectedPresentsText.setText(`pakker: ${this.collectedPresents}`);
   }
 
-  private showStartInfo() {}
-
-  createStartInfoText(): void {
-    const tekst = `Stakkars nissen har falt\n av sleden og mista alle\npakkene. Kan du hjelpe\n ham å samle så mange som\n mulig uten å få korona?\n\nTrykk her for å begynne.`;
-    this.startInfoText = this.add
-      .text(this.bredde / 2, this.hoyde / 2, tekst, {
-        fontSize: `${fiksForPikselratio(20)}px`,
-        color: '#000',
-        align: 'center',
-        backgroundColor: '#ccc',
-        padding: { x: 10, y: 10 },
-      })
-      .setOrigin(0.5, 0.5);
-
-    this.input.once('pointerup', () => {
-      this.startGame();
-    });
-    // setTimeout(() => {
-    //   this.input.once('pointerup', () => {
-    //     this.startGame();
-    //   });
-    // }, 100);
-  }
-
-  startGame() {
-    this.startInfoText.visible = false;
-    this.hasJumpedTwice = undefined;
-    this.collectedPresents = 0;
-    this.updateText();
-    this.physics.resume();
-    this.paused = false;
-  }
-
   private lose() {
-    this.helt.setTint(0xff0000);
-
     this.scene.pause();
+    this.helt.setTint(0xff0000);
     this.cameras.main.setBackgroundColor(0xbababa);
     this.cameras.main.setAlpha(0.5);
 
-    setTimeout(() => {
-      this.scene.restart({ level: this.level });
-    }, 2000);
+    this.scene.launch('lost-scene', { resultat: this.collectedPresents, level: this.level });
+
+    // const goToHomeTimeout = setTimeout(() => {
+    //   // this.scene.restart({ level: this.level });
+    //   const home = document.querySelector<HTMLDivElement>('#home')!;
+    //   const game = document.querySelector<HTMLDivElement>('#game')!;
+    //   home.style.display = 'block';
+    //   game.style.display = 'none';
+    // }, 3000);
+
+    // setTimeout(() => {
+    //   this.input.once('pointerdown', () => {
+    //     console.log('Want to try level again');
+    //     clearTimeout(goToHomeTimeout);
+    //     this.scene.start('main-scene', { level: this.level });
+    //   });
+    // }, 500);
   }
 }
