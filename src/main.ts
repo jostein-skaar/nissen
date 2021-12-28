@@ -66,10 +66,10 @@ window.onload = () => {
   preload.style.display = 'none';
   game.style.display = 'block';
 
-  game.addEventListener('click', () => {
-    // Hack to be able to jump when clicking outside canvas.
-    phaserGame.scene.scenes[1].input.emit('pointerdown');
-  });
+  // game.addEventListener('click', () => {
+  //   // Hack to be able to jump when clicking outside canvas.
+  //   phaserGame.scene.scenes[1].input.emit('pointerdown');
+  // });
 
   // preload.style.display = 'block';
   // game.style.opacity = '0';

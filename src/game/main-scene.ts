@@ -229,6 +229,9 @@ export class MainScene extends Phaser.Scene {
       } else {
         this.helt.play('stand', true);
       }
+      if (this.helt.body.onFloor()) {
+        this.hasJumpedTwice = undefined;
+      }
     }
     if (this.helt.x > this.map.widthInPixels) {
       this.scene.restart({ level: this.level });
