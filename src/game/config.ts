@@ -20,7 +20,7 @@ export function createGameConfig(
     parent: 'game',
 
     render: {
-      roundPixels: true,
+      antialias: true,
       // antialias: false, er default, giving a crisper appearance.
       // antialias: true, // giving a smooth appearance.
       // roundPixels: true, round pixel values to whole integers? Prevent sub-pixel aliasing. (false er default)
