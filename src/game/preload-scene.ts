@@ -58,6 +58,6 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('main-scene', { level: 'level01' });
+    this.scene.start('main-scene', { level: 'level02' });
   }
 }
