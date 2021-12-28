@@ -54,7 +54,7 @@ export class PreloadScene extends Phaser.Scene {
       spacing: 2,
     });
 
-    this.load.tilemapTiledJSON('map', `assets/levels@${fiksForPikselratio(1)}.json`);
+    this.load.tilemapTiledJSON('map', `assets/levels@${fiksForPikselratio(1)}.json?v={VERSJON}`);
   }
 
   create() {
