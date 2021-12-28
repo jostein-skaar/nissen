@@ -1,3 +1,5 @@
+import { fiksForPikselratio } from '../fiks-for-pikselratio';
+
 export class LostScene extends Phaser.Scene {
   bredde!: number;
   hoyde!: number;
@@ -20,16 +22,16 @@ export class LostScene extends Phaser.Scene {
     this.add
       .text(this.bredde / 2, this.hoyde / 2, tekst, {
         fontFamily: 'arial',
-        fontSize: '20px',
+        fontSize: `${fiksForPikselratio(20)}px`,
         color: '#fff',
         align: 'center',
         backgroundColor: '#b3000c',
-        padding: { x: 15, y: 15 },
+        padding: { x: fiksForPikselratio(15), y: fiksForPikselratio(15) },
       })
       .setOrigin(0.5, 0.5);
 
     const goToHomeTimeout = setTimeout(() => {
-      this.scene.setVisible(false);
+      this.scene.stop();
       const home = document.querySelector<HTMLDivElement>('#home')!;
       const game = document.querySelector<HTMLDivElement>('#game')!;
       home.style.display = 'block';
