@@ -83,6 +83,7 @@ window.onload = () => {
   loader.style.display = 'none';
   home.style.display = 'block';
   game.style.display = 'none';
+  // game.style.display = 'block';
 
   // game.addEventListener('click', () => {
   //   // Hack to be able to jump when clicking outside canvas.

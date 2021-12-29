@@ -19,6 +19,7 @@ export class MainScene extends Phaser.Scene {
   isDead: boolean = false;
   level!: string;
   useParallax = false;
+  countdownText!: Phaser.GameObjects.Text;
 
   constructor() {
     super('main-scene');
@@ -132,13 +133,6 @@ export class MainScene extends Phaser.Scene {
       frameRate: 9,
     });
 
-    this.isPaused = true;
-    this.physics.pause();
-    this.input.once('pointerup', () => {
-      this.isPaused = false;
-      this.physics.resume();
-    });
-
     this.input.on('pointerdown', () => {
       if (this.helt.body.onFloor()) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
@@ -175,9 +169,42 @@ export class MainScene extends Phaser.Scene {
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
 
+    this.countdownText = this.add
+      .text(this.bredde / 2, this.hoyde / 2, '', {
+        fontSize: `${fiksForPikselratio(200)}px`,
+        color: '#b3000c',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.tweens.add({
+      targets: this.countdownText,
+      // x: this.bredde,
+      scale: 1.4,
+      ease: 'Power0',
+      duration: 250,
+      yoyo: true,
+      repeat: -1,
+    });
+    let countdownCounter = 3;
+    this.countdownText.setText(countdownCounter.toString());
+    const countdownIntervalId = setInterval(() => {
+      countdownCounter--;
+      this.countdownText.setText(countdownCounter.toString());
+      console.log(countdownCounter);
+      if (countdownCounter <= 0) {
+        this.countdownText.setVisible(false);
+        this.startGame();
+        clearInterval(countdownIntervalId);
+      }
+    }, 1000);
+
     this.collectedPresents = 0;
     this.isDead = false;
     this.updateText();
+
+    this.isPaused = true;
+    this.physics.pause();
   }
 
   update(): void {
@@ -218,6 +245,11 @@ export class MainScene extends Phaser.Scene {
     }
 
     this.collectedPresentsText.setText(text);
+  }
+
+  private startGame() {
+    this.isPaused = false;
+    this.physics.resume();
   }
 
   private lose() {
