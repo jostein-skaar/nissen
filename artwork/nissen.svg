@@ -223,9 +223,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="228.125"
-     inkscape:cy="18.125"
+     inkscape:zoom="32"
+     inkscape:cx="311.79688"
+     inkscape:cy="27.609375"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -365,27 +365,27 @@
        style="font-size:20px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect207602);display:inline"><tspan
          x="-788"
          y="-11.753394"
-         id="tspan9387">b3000c: mørk rød
+         id="tspan1725">b3000c: mørk rød
 </tspan><tspan
          x="-788"
          y="13.246606"
-         id="tspan9389">e40a2d: lys rød
+         id="tspan1727">e40a2d: lys rød
 </tspan><tspan
          x="-788"
          y="38.246606"
-         id="tspan9391">00b32c: mørk grønn
+         id="tspan1729">00b32c: mørk grønn
 </tspan><tspan
          x="-788"
          y="63.246606"
-         id="tspan9393">1fd537: lys grønn
+         id="tspan1731">1fd537: lys grønn
 </tspan><tspan
          x="-788"
          y="88.246606"
-         id="tspan9395">87CEEB: himmelblå
+         id="tspan1733">87CEEB: himmelblå
 </tspan><tspan
          x="-788"
          y="113.24661"
-         id="tspan9397">ece7b8: beige</tspan></text>
+         id="tspan1735">ece7b8: beige</tspan></text>
   </g>
   <g
      inkscape:label="fliser"
@@ -1600,7 +1600,7 @@
         <path
            stroke="#000000"
            stroke-width="12.6317"
-           d="m 1465.1622,1585.7419 10.2252,107.8585 154.2219,-3.5076 c 0,0 8.0923,-65.1177 -8.6507,-66.2059 -16.7317,-1.0797 -69.2932,15.5632 -69.2932,15.5632 l -3.7113,-52.4776 z"
+           d="m 1465.1622,1585.7652 10.2252,107.8585 154.2219,-3.5076 c 0,0 8.0923,-65.1177 -8.6507,-66.2059 -16.7317,-1.0797 -69.2932,15.5632 -69.2932,15.5632 l -3.7113,-52.4776 z"
            fill="#000000"
            stroke-linecap="round"
            opacity="1"
