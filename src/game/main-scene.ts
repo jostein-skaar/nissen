@@ -176,6 +176,8 @@ export class MainScene extends Phaser.Scene {
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
 
+    this.collectedPresents = 0;
+    this.isDead = false;
     this.updateText();
   }
 
@@ -234,8 +236,6 @@ export class MainScene extends Phaser.Scene {
 
     console.log({ resultat: this.collectedPresents, level: this.level });
     this.scene.launch('lost-scene', { resultat: this.collectedPresents, level: this.level });
-
-    this.collectedPresents = 0;
 
     // const goToHomeTimeout = setTimeout(() => {
     //   // this.scene.restart({ level: this.level });
