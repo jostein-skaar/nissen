@@ -28,7 +28,6 @@ export class MainScene extends Phaser.Scene {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
     this.level = data.level;
-
     const tempBestScore = localStorage.getItem(`nissen-best-score-${this.level}`);
     this.collectedPresentsBest = tempBestScore === null ? 0 : +tempBestScore;
   }
@@ -204,7 +203,7 @@ export class MainScene extends Phaser.Scene {
       }
     }
     if (this.helt.x > this.map.widthInPixels) {
-      this.scene.restart({ level: this.level });
+      this.lose();
     }
 
     if (this.helt.y > this.map.heightInPixels) {
