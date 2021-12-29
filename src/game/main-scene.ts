@@ -13,9 +13,10 @@ export class MainScene extends Phaser.Scene {
   backgroundMountains!: Phaser.GameObjects.TileSprite;
   backgroundSnow!: Phaser.GameObjects.TileSprite;
   collectedPresents = 0;
+  collectedPresentsBest = 0;
   collectedPresentsText!: Phaser.GameObjects.Text;
-  startInfoText!: Phaser.GameObjects.Text;
-  paused: boolean = false;
+  isPaused: boolean = false;
+  isDead: boolean = false;
   level!: string;
   useParallax = false;
 
@@ -27,6 +28,9 @@ export class MainScene extends Phaser.Scene {
     this.bredde = this.game.scale.gameSize.width;
     this.hoyde = this.game.scale.gameSize.height;
     this.level = data.level;
+
+    const tempBestScore = localStorage.getItem(`nissen-best-score-${this.level}`);
+    this.collectedPresentsBest = tempBestScore === null ? 0 : +tempBestScore;
   }
 
   create(): void {
@@ -129,19 +133,15 @@ export class MainScene extends Phaser.Scene {
       frameRate: 9,
     });
 
-    // this.helt.anims.play('walk', true);
-    // this.helt.setBounce(0);
-    this.paused = true;
+    this.isPaused = true;
     this.physics.pause();
     this.input.once('pointerup', () => {
-      this.paused = false;
+      this.isPaused = false;
       this.physics.resume();
     });
 
     this.input.on('pointerdown', () => {
-      // console.log(this.helt.body.onFloor(), this.helt.body.touching.down, this.hasJumpedTwice === false);
       if (this.helt.body.onFloor()) {
-        // || this.helt.body.touching.down) {
         this.helt.setVelocityY(fiksForPikselratio(-200));
         this.hasJumpedTwice = false;
         console.log('HOPP: onFloor()');
@@ -164,8 +164,6 @@ export class MainScene extends Phaser.Scene {
       present.disableBody(true, true);
       this.collectedPresents += 1;
       this.updateText();
-
-      // this.hasJumpedTwice = false;
     });
 
     this.physics.add.overlap(this.helt, this.enemyGroup, (_helt, _enemy) => {
@@ -177,51 +175,21 @@ export class MainScene extends Phaser.Scene {
       color: '#000',
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
+
+    this.updateText();
   }
 
   update(): void {
-    // Because we use background@1-versions (pixelRatio=1), we need to compensate the scrolling.
     if (this.useParallax) {
+      // Because we use background@1-versions (pixelRatio=1), we need to compensate the scrolling.
       this.backgroundMountains.tilePositionX = (this.cameras.main.scrollX * 0.2) / fiksForPikselratio(1);
       this.backgroundSnow.tilePositionX = (this.cameras.main.scrollX * 0.6) / fiksForPikselratio(1);
     }
 
-    // if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down)) {
-    //   this.helt.setVelocityY(fiksForPikselratio(-200));
-    //   console.log('satt hopp');
-    // } else {
-    //   this.helt.setVelocityX(fiksForPikselratio(100));
-    //   if (this.helt.body.blocked.down || this.helt.body.touching.down) {
-    //     console.log('har landa');
-    //   }
-    // }
-
-    // TODO: Problem når hoppa og landa. Kan ikke dobelthoppe neste gang.
-    // if (this.input.activePointer.isDown && (this.helt.body.blocked.down || this.helt.body.touching.down || this.hasJumpedTwice)) {
-    //   this.helt.setVelocityY(fiksForPikselratio(-200));
-    //   // 400 ms er for å sikre at man er ferdig å klikke første gang.
-    //   // Lavt tall her gjør at man må tappe spesielt fort på en touch skjerm.
-    //   if (this.timeSinceLastJump && time - this.timeSinceLastJump > 4000) {
-    //     this.hasJumpedTwice = false;
-    //     this.timeSinceLastJump = undefined;
-    //   } else if (!this.timeSinceLastJump || time - this.timeSinceLastJump > 400) {
-    //     if (this.hasJumpedTwice) {
-    //       console.log('update2', this.hasJumpedTwice, time);
-    //       this.hasJumpedTwice = false;
-    //     } else {
-    //       console.log('update3', this.hasJumpedTwice, time);
-    //       this.hasJumpedTwice = true;
-    //       this.timeSinceLastJump = time;
-    //     }
-    //   }
-    // } //else {
-    //   this.helt.setVelocityX(fiksForPikselratio(100));
-    // }
-
     this.helt.setVelocityX(fiksForPikselratio(100));
 
     // Animasjoner.
-    if (!this.paused) {
+    if (!this.isPaused) {
       if (this.helt.body.onFloor() && !this.helt.body.onWall()) {
         this.helt.play('walk', true);
       } else if (!this.helt.body.onFloor()) {
@@ -243,16 +211,31 @@ export class MainScene extends Phaser.Scene {
   }
 
   private updateText() {
-    this.collectedPresentsText.setText(`pakker: ${this.collectedPresents}`);
+    let text = `Pakker: ${this.collectedPresents}`;
+    if (this.collectedPresentsBest > 0) {
+      text += `\nRekord: ${this.collectedPresentsBest}`;
+    }
+
+    this.collectedPresentsText.setText(text);
   }
 
   private lose() {
+    if (this.isDead) {
+      return;
+    }
+    this.isDead = true;
     this.scene.pause();
     this.helt.setTint(0xff0000);
     this.cameras.main.setBackgroundColor(0xbababa);
     this.cameras.main.setAlpha(0.5);
 
+    this.collectedPresentsBest = Math.max(this.collectedPresents, this.collectedPresentsBest);
+    localStorage.setItem(`nissen-best-score-${this.level}`, this.collectedPresentsBest.toString());
+
+    console.log({ resultat: this.collectedPresents, level: this.level });
     this.scene.launch('lost-scene', { resultat: this.collectedPresents, level: this.level });
+
+    this.collectedPresents = 0;
 
     // const goToHomeTimeout = setTimeout(() => {
     //   // this.scene.restart({ level: this.level });
