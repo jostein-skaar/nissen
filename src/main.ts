@@ -56,14 +56,14 @@ console.table({ width, height, scaleModePhaser, centerModePhaser });
 const gameConfig = createGameConfig(width, height, scaleModePhaser, centerModePhaser, pixelRatio, isDebug);
 const phaserGame = new Phaser.Game(gameConfig);
 
-document.querySelector<HTMLDivElement>('.start-level01')?.addEventListener('click', () => {
-  startLevel('level01');
+document.querySelector<HTMLDivElement>('.start-level-jostein')?.addEventListener('click', () => {
+  startLevel('level-jostein');
 });
-document.querySelector<HTMLDivElement>('.start-level02')?.addEventListener('click', () => {
-  startLevel('level02');
+document.querySelector<HTMLDivElement>('.start-level-aron')?.addEventListener('click', () => {
+  startLevel('level-aron');
 });
-document.querySelector<HTMLDivElement>('.start-level03')?.addEventListener('click', () => {
-  startLevel('level03');
+document.querySelector<HTMLDivElement>('.start-level-else')?.addEventListener('click', () => {
+  startLevel('level-else');
 });
 
 function startLevel(level: string) {
