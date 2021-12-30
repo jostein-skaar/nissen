@@ -18,10 +18,12 @@ p {
 }
 #home {
   text-align: center;
+  margin: 0 auto;
   margin-top: 10px;
   padding: 15px;
   height: 100vh;
   overflow-y: auto;
+  max-width: 500px;
 }
 
 .level-container {
@@ -29,16 +31,28 @@ p {
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 15px;
   margin: 0 auto;
-  max-width: 500px;
 }
 
 .level-container button {
   font-size: 1.4rem;
   background-color: #b3000c;
+  appearance: none;
+  border: 2px solid #b3000c;
   color: #fff;
-  border: none;
   display: block;
   height: 80px;
+  user-select: none;
+  outline: none;
+}
+
+.level-container button:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.level-container button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }
 
 #home img {
