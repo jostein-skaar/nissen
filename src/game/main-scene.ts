@@ -116,7 +116,7 @@ export class MainScene extends Phaser.Scene {
     }
 
     this.helt = this.physics.add.sprite(0, 0, 'helt');
-    this.helt.setPosition(this.helt.width / 2, this.hoyde - this.helt.height / 2 - tilesSize);
+    this.helt.setPosition(this.helt.width / 2 + fiksForPikselratio(10), this.hoyde - this.helt.height / 2 - tilesSize);
 
     this.helt.anims.create({
       key: 'walk',
