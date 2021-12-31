@@ -166,6 +166,8 @@ export class MainScene extends Phaser.Scene {
     this.collectedPresentsText = this.add.text(fiksForPikselratio(16), fiksForPikselratio(16), '', {
       fontSize: `${fiksForPikselratio(24)}px`,
       color: '#000',
+      backgroundColor: '#ccc',
+      padding: { x: fiksForPikselratio(5), y: fiksForPikselratio(5) },
     });
     this.collectedPresentsText.setScrollFactor(0, 0);
 
