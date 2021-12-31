@@ -33,8 +33,6 @@ const height = 640;
 // Width is not that important, but shouldn't be to wide.
 let width = maxWantedWidth;
 
-// TODO: Should fit if iPad...
-
 let scaleModePhaser = Phaser.Scale.ScaleModes.NONE;
 let centerModePhaser = Phaser.Scale.Center.NO_CENTER;
 if (window.innerHeight < height) {
@@ -64,6 +62,9 @@ document.querySelector<HTMLDivElement>('.start-level-aron')?.addEventListener('c
 });
 document.querySelector<HTMLDivElement>('.start-level-else')?.addEventListener('click', () => {
   startLevel('level-else');
+});
+document.querySelector<HTMLDivElement>('.start-level-isak')?.addEventListener('click', () => {
+  startLevel('level-isak');
 });
 
 function startLevel(level: string) {
