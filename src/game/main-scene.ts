@@ -20,6 +20,7 @@ export class MainScene extends Phaser.Scene {
   level!: string;
   useParallax = false;
   countdownText!: Phaser.GameObjects.Text;
+  levelText!: string;
 
   constructor() {
     super('main-scene');
@@ -31,6 +32,21 @@ export class MainScene extends Phaser.Scene {
     this.level = data.level;
     const tempBestScore = localStorage.getItem(`nissen-best-score-${this.level}`);
     this.collectedPresentsBest = tempBestScore === null ? 0 : +tempBestScore;
+    this.levelText = this.level;
+    switch (this.level) {
+      case 'level-jostein':
+        this.levelText = 'Josteins bane';
+        break;
+      case 'level-aron':
+        this.levelText = 'Arons bane';
+        break;
+      case 'level-else':
+        this.levelText = 'Elses bane';
+        break;
+      case 'level-isak':
+        this.levelText = 'Isaks bane';
+        break;
+    }
   }
 
   create(): void {
@@ -241,7 +257,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   private updateText() {
-    let text = `Pakker: ${this.collectedPresents}`;
+    let text = this.levelText;
+    text += `\nPakker: ${this.collectedPresents}`;
     if (this.collectedPresentsBest > 0) {
       text += `\nRekord: ${this.collectedPresentsBest}`;
     }
