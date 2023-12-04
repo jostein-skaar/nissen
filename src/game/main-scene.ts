@@ -53,7 +53,7 @@ export class MainScene extends Phaser.Scene {
     const tilesSize = fiksForPikselratio(32);
 
     this.map = this.make.tilemap({ key: 'map' });
-    const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles');
+    const tiles = this.map.addTilesetImage(`tiles-sprite@${fiksForPikselratio(1)}`, 'tiles') as Phaser.Tilemaps.Tileset;
 
     if (this.useParallax) {
       this.backgroundMountains = this.add
@@ -69,8 +69,9 @@ export class MainScene extends Phaser.Scene {
     }
 
     const snowScrollFactor = 0.5;
-    const particles = this.add.particles('snow');
-    var emitter = particles.createEmitter({
+    // const particles = this.add.particles('snow');
+
+    const emitter = this.add.particles(0, 0, 'snow', {
       x: { min: 0, max: this.map.widthInPixels * snowScrollFactor + this.bredde / 2 },
       y: fiksForPikselratio(-10),
       lifespan: { min: 20000, max: 60000 },
@@ -84,11 +85,26 @@ export class MainScene extends Phaser.Scene {
       rotate: { start: 0, end: 180 },
       frame: [0, 1, 2],
     });
+
+    // var emitter = particles.createEmitter({
+    //   x: { min: 0, max: this.map.widthInPixels * snowScrollFactor + this.bredde / 2 },
+    //   y: fiksForPikselratio(-10),
+    //   lifespan: { min: 20000, max: 60000 },
+    //   speedY: { min: fiksForPikselratio(2), max: fiksForPikselratio(10) },
+    //   speedX: { min: fiksForPikselratio(-10), max: fiksForPikselratio(10) },
+    //   angle: { min: 0, max: 180 },
+    //   gravityY: fiksForPikselratio(1),
+    //   scale: { min: 0.4, max: 1 },
+    //   quantity: 5,
+    //   frequency: 500,
+    //   rotate: { start: 0, end: 180 },
+    //   frame: [0, 1, 2],
+    // });
     emitter.scrollFactorX = snowScrollFactor;
     emitter.randomFrame = true;
     console.log('this.map.widthInPixels', this.map.widthInPixels);
 
-    const platformLayer = this.map.createLayer(this.level, [tiles]);
+    const platformLayer = this.map.createLayer(this.level, [tiles]) as Phaser.Tilemaps.TilemapLayer;
     platformLayer.setCollisionByProperty({ collision: true });
 
     this.presentsGroup = this.physics.add.group({
